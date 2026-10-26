@@ -1,8 +1,8 @@
 # 1. Define paths
-$GameInfoSource = "Path\to\gameinfo.gi"
+$GameInfoSource = "Path\to\DLconf\gameinfo.gi"
 $CitadelDirectory = "Path\to\Deadlock\game\citadel"
 
-$VideoTxtSource = "C:\DLconf\video.txt"  # Adjust if your backup video.txt is located elsewhere
+$VideoTxtSource = "Path\to\DLconf\video.txt"  # Adjust if your backup video.txt is located elsewhere
 $CfgDirectory = "Path\to\Deadlock\game\citadel\cfg"
 
 # 2. Ensure destination folders exist
