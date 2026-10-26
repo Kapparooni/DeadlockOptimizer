@@ -1,20 +1,29 @@
-# 1. Define paths
-$GameInfoSource = "Path\to\DLconf\gameinfo.gi"
-$CitadelDirectory = "Path\to\Deadlock\game\citadel"
+# 1. Path to files inside the DLconf folder
+$GameInfoSource = Join-Path $PSScriptRoot "DLconf\gameinfo.gi"
+$VideoTxtSource = Join-Path $PSScriptRoot "DLconf\video.txt"
 
-$VideoTxtSource = "Path\to\DLconf\video.txt"  # Adjust if your backup video.txt is located elsewhere
-$CfgDirectory = "Path\to\Deadlock\game\citadel\cfg"
+# 2. Default Deadlock installation path
+$DeadlockDir = "C:\Program Files (x86)\Steam\steamapps\common\Deadlock"
 
-# 2. Ensure destination folders exist
-if (-not (Test-Path $CfgDirectory)) {
-    New-Item -ItemType Directory -Path $CfgDirectory -Force | Out-Null
+# If not found at default path, ask user for it
+if (-not (Test-Path $DeadlockDir)) {
+    $DeadlockDir = Read-Host "Enter the path to your Deadlock folder (e.g., D:\Steam\steamapps\common\Deadlock)"
 }
 
-# 3. Copy/replace both files
-Copy-Item -Path $GameInfoSource -Destination $CitadelDirectory -Force
-Copy-Item -Path $VideoTxtSource -Destination $CfgDirectory -Force
+# 3. Destination folders
+$CitadelDir = Join-Path $DeadlockDir "game\citadel"
+$CfgDir = Join-Path $CitadelDir "cfg"
+
+# Ensure cfg folder exists
+if (-not (Test-Path $CfgDir)) {
+    New-Item -ItemType Directory -Path $CfgDir -Force | Out-Null
+}
+
+# 4. Copy the files
+Copy-Item $GameInfoSource -Destination $CitadelDir -Force
+Copy-Item $VideoTxtSource -Destination $CfgDir -Force
 
 Write-Host "Custom files applied successfully!" -ForegroundColor Green
 
-# 4. Launch Deadlock via Steam
+# 5. Launch Deadlock via Steam
 Start-Process "steam://rungameid/1422450"
